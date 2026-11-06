@@ -1,103 +1,116 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Chris Cal</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#16a34a">
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:system-ui;background:var(--bg,#0f172a);color:var(--txt,#fff);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-:root{--bg:#0f172a;--card:#1e293b;--btn:#334155;--op:#16a34a;--txt:#fff}
-body.light{--bg:#f1f5f9;--card:#fff;--btn:#e2e8f0;--txt:#0f172a}
-.top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-.top b{font-size:18px}.icons{display:flex;gap:16px;font-size:22px}
-#menuBtn,#histBtn{cursor:pointer}
-.menu{position:absolute;top:52px;right:12px;background:var(--card);border-radius:12px;box-shadow:0 10px 30px #0005;display:none;z-index:99;min-width:200px;overflow:hidden}
-.menu div{padding:13px 16px;border-bottom:1px solid #0002;cursor:pointer;font-size:15px}
-.screen{padding:8px 20px;text-align:right;min-height:100px}
-#histLine{font-size:15px;opacity:.6;min-height:20px;word-break:break-all}
-#disp{font-size:44px;font-weight:700;word-break:break-all;min-height:58px}
-#deg{font-size:11px;background:var(--op);padding:3px 8px;border-radius:20px;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px;flex:1}
-button{border:0;border-radius:14px;background:var(--btn);color:var(--txt);font-size:16px;padding:10px 2px;cursor:pointer}
-button:active{transform:scale(.96)}
-.num{background:var(--card);font-size:20px}.eq{background:var(--op);color:#fff;font-size:22px;grid-column:span:2}
-.sci{font-size:13px;color:#4ade80}
-.histPage{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;z-index:100}
-.histPage header{display:flex;gap:12px;align-items:center;padding:14px}
-.histList{padding:10px;overflow:auto;flex:1}
-.histItem{background:var(--card);padding:12px;border-radius:12px;margin-bottom:8px;text-align:right}
-.histItem small{opacity:.6;display:block;text-align:left}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:200}
-.modal>div{background:var(--card);padding:20px;border-radius:16px;width:85%;max-width:340px}
-</style></head>
+*{box-sizing:border-box}
+body{margin:0;background:#111;font-family:sans-serif;display:flex;justify-content:center;height:100vh;overflow:hidden}
+:root{--main:#00ff88}
+#loading{position:fixed;inset:0;background:#000;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99}
+#loading h1{color:var(--main);font-size:32px;letter-spacing:2px;margin:0}
+#loading p{color:#888}
+.loader{width:120px;height:6px;background:#222;border-radius:10px;overflow:hidden;margin-top:20px}
+.loader div{height:100%;width:0%;background:var(--main)}
+.box{background:#1c1c1c;padding:10px;border-radius:20px;width:100%;max-width:360px;margin:5px auto;display:none;max-height:100vh;overflow-y:auto}
+.top{display:flex;justify-content:space-between;align-items:center;color:white}
+.top b{color:var(--main);font-size:14px}
+.colors button{width:22px;height:22px;border-radius:50%;border:2px solid white;cursor:pointer}
+#screen{width:100%;height:48px;font-size:26px;text-align:right;background:#000;color:var(--main);border:none;border-radius:12px;padding:10px;margin-top:8px}
+#hist{background:#111;color:#aaa;height:35px;overflow:auto;font-size:13px;padding:6px;border-radius:10px;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:10px;width:100%}
+button{height:40px;font-size:15px;border:none;border-radius:12px;background:#333;color:white;min-width:0;overflow:hidden}
+button.op{background:#ff9500}
+button.eq{background:var(--main);color:black;font-weight:bold}
+button.clear{background:#ff3b30}
+button.sci{background:#444;color:var(--main)}
+</style>
+</head>
 <body>
-<div class="top"><b>Chris Cal <span id="deg">DEG</span></b><div class="icons"><span id="histBtn">🕒</span><span id="menuBtn">⋮</span></div></div>
-<div class="menu" id="menu"><div onclick="openModal('settings')">⚙️ Settings</div><div onclick="changeTheme()">🎨 Change Theme</div><div onclick="openModal('about')">ℹ️ About App</div><div onclick="openModal('more')">📱 More Apps & Policy</div></div>
-<div class="screen"><div id="histLine"></div><div id="disp">0</div></div>
-<div class="grid" id="grid"></div>
-<div class="histPage" id="histPage"><header><span onclick="closeHist()" style="font-size:22px">←</span><b>History</b><span style="margin-left:auto" onclick="clearHist()">Clear</span></header><div class="histList" id="histList"></div></div>
-<div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mBody" style="line-height:1.6;font-size:14px"></p><button onclick="closeModal()" style="width:100%;background:var(--op);padding:12px;color:#fff;border:0;border-radius:10px">Close</button></div></div>
+
+<div id="loading">
+<h1>CHRIS</h1>
+<h1>CALCULATOR</h1>
+<p>Loading...</p>
+<div class="loader"><div id="bar"></div></div>
+</div>
+
+<div class="box" id="mainBox">
+<div class="top"><b>CHRIS CALCULATOR</b>
+<div class="colors">
+<button style="background:#00ff88" onclick="setColor('#00ff88')"></button>
+<button style="background:#0099ff" onclick="setColor('#0099ff')"></button>
+<button style="background:#a855f7" onclick="setColor('#a855f7')"></button>
+<button style="background:#ff3b30" onclick="setColor('#ff3b30')"></button>
+<button style="background:#ffcc00" onclick="setColor('#ffcc00')"></button>
+</div></div>
+
+<div id="hist">Historia hapa...<br></div>
+<input id="screen" readonly placeholder="0">
+
+<div class="grid">
+<button class="sci" onclick="add('Math.sin(')">sin</button>
+<button class="sci" onclick="add('Math.cos(')">cos</button>
+<button class="sci" onclick="add('Math.tan(')">tan</button>
+<button class="sci" onclick="add('Math.sqrt(')">√</button>
+<button class="sci" onclick="add('**')">^</button>
+
+<button class="sci" onclick="add('Math.log10(')">log</button>
+<button class="sci" onclick="add('Math.PI')">π</button>
+<button class="sci" onclick="add('%')">%</button>
+<button class="clear" onclick="clr()">C</button>
+<button onclick="back()">⌫</button>
+
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button class="op" onclick="add('/')">÷</button>
+<button class="sci" onclick="add('(')">(</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button class="op" onclick="add('×')">×</button>
+<button class="sci" onclick="add(')')">)</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button class="op" onclick="add('-')">-</button>
+<button class="sci" onclick="add('Math.pow(')">x
+<button onclick="add('0')">0</button>
+<button onclick="add('00')">00</button>
+<button onclick="add('.')">.</button>
+<button class="op" onclick="add('+')">+</button>
+<button class="eq" onclick="calc()">=</button>
+</div>
+<p style="color:#666;text-align:center;font-size:12px">CHRIS CALCULATOR v1.0</p>
+</div>
+
 <script>
-let disp=document.getElementById('disp'),histLine=document.getElementById('histLine'),expr='',isDeg=true,mem=0;
-let hist=JSON.parse(localStorage.getItem('chris_hist')||'[]');
-function upd(){disp.textContent=expr||'0'}
-function add(v){expr+=v;upd()}
-function clr(){expr='';upd()}
-function del(){expr=expr.slice(0,-1);upd()}
-function fact(n){if(n<0||n!=Math.floor(n))return NaN;let r=1;for(let i=2;i<=n;i++)r*=i;return r}
-function sin(x){return Math.sin(isDeg?x*Math.PI/180:x)}
-function cos(x){return Math.cos(isDeg?x*Math.PI/180:x)}
-function tan(x){return Math.tan(isDeg?x*Math.PI/180:x)}
-function asin(x){let r=Math.asin(x);return isDeg?r*180/Math.PI:r}
-function acos(x){let r=Math.acos(x);return isDeg?r*180/Math.PI:r}
-function atan(x){let r=Math.atan(x);return isDeg?r*180/Math.PI:r}
-function log(x){return Math.log10(x)}
-function ln(x){return Math.log(x)}
-function sqrt(x){return Math.sqrt(x)}
+let s=document.getElementById('screen');
+let hist=document.getElementById('hist');
+let bar=document.getElementById('bar');
+let w=0;
+let t=setInterval(()=>{
+w+=10; bar.style.width=w+'%';
+if(w>=100){clearInterval(t);
+document.getElementById('loading').style.display='none';
+document.getElementById('mainBox').style.display='block';
+}
+},150);
+function add(v){s.value+=v}
+function clr(){s.value=''}
+function back(){s.value=s.value.slice(0,-1)}
+function setColor(c){document.documentElement.style.setProperty('--main',c)}
 function calc(){
- try{
-  let e=expr.replace(/π/g,'Math.PI').replace(/√\(/g,'Math.sqrt(').replace(/\^/g,'**').replace(/(\d)!/g,'fact($1)');
-  let res=eval(e); if(res===undefined||isNaN(res))throw 0;
-  res=parseFloat(res.toFixed(10));
-  hist.unshift({e:expr,r:res,t:new Date().toLocaleString()});
-  localStorage.setItem('chris_hist',JSON.stringify(hist.slice(0,100)));
-  histLine.textContent=expr+' =';expr=String(res);upd();
- }catch{alert('Error - Angalia hesabu')}
+try{
+let expr=s.value.replace(/%/g,'/100');
+let res=eval(expr);
+hist.innerHTML += s.value+' = <b style="color:white">'+res+'</b><br>';
+s.value=res;
+}catch(e){s.value='Error'}
 }
-const btns=[['DEG','deg'],['sin','sin('],['cos','cos('],['tan','tan('],['log','log('],['asin','asin('],['acos','acos('],['atan','atan('],['ln','ln('],['√','sqrt('],['x²','**2'],['x³','**3'],['xʸ','^'],['1/x','**(-1)'],['!','!'],['(','('],[')',')'],['π','π'],['e','e'],['%','/100'],['C','clr'],['⌫','del'],['7','7'],['8','8'],['9','9'],['÷','/'],['MC','mc'],['4','4'],['5','5'],['6','6'],['×','*'],['MR','mr'],['1','1'],['2','2'],['3','3'],['-','-'],['M+','mplus'],['0','0'],['.','.'],['±','pm'],['+','+'],['=','eq']];
-let g=document.getElementById('grid');
-btns.forEach(b=>{
- let btn=document.createElement('button');btn.textContent=b[0];
- if(['C','⌫'].includes(b[0]))btn.style.background='#ef4444';
- if(['='].includes(b[0]))btn.className='eq';
- if(['7','8','9','4','5','6','1','2','3','0','.'].includes(b[0]))btn.className='num';
- if(['sin','cos','tan','asin','acos','atan','log','ln','√','x²','x³','xʸ','1/x','!','π','e','%','DEG'].includes(b[0]))btn.classList.add('sci');
- btn.onclick=()=>{
-  let v=b[1];
-  if(v=='clr')clr(); else if(v=='del')del(); else if(v=='eq')calc();
-  else if(v=='deg'){isDeg=!isDeg;document.getElementById('deg').textContent=isDeg?'DEG':'RAD'}
-  else if(v=='mc')mem=0; else if(v=='mr')add(String(mem)); else if(v=='mplus'){try{mem+=eval(expr)}catch{}}
-  else if(v=='pm'){expr=expr.startsWith('-')?expr.slice(1):'-'+expr;upd()}
-  else if(v=='sqrt(')add('√(');
-  else add(v);
- };
- g.appendChild(btn);
-});
-document.getElementById('histBtn').onclick=()=>{document.getElementById('histPage').style.display='flex';renderHist()};
-function closeHist(){document.getElementById('histPage').style.display='none'}
-function renderHist(){let l=document.getElementById('histList');l.innerHTML=hist.length?'':'<p style="text-align:center;opacity:.6">Hakuna history bado</p>';hist.forEach(h=>{l.innerHTML+=`<div class="histItem" onclick="useHist('${h.r}')"><small>${h.t} • ${h.e}</small><b>${h.r}</b></div>`})}
-function useHist(v){expr=String(v);upd();closeHist()}
-function clearHist(){hist=[];localStorage.removeItem('chris_hist');renderHist()}
-document.getElementById('menuBtn').onclick=(e)=>{e.stopPropagation();let m=document.getElementById('menu');m.style.display=m.style.display=='block'?'none':'block'};
-document.addEventListener('click',()=>document.getElementById('menu').style.display='none');
-function changeTheme(){document.body.classList.toggle('light');localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark')}
-if(localStorage.getItem('theme')=='light')document.body.classList.add('light');
-function openModal(t){
- let ti=document.getElementById('mTitle'),bo=document.getElementById('mBody');
- if(t=='settings'){ti.textContent='Settings';bo.innerHTML='• Theme: Change kupitia menu<br>• DEG/RAD: Bonyeza DEG juu<br>• History: Inahifadhiwa moja kwa moja<br>• Memory: MC / MR / M+'}
- if(t=='about'){ti.textContent='About App';bo.innerHTML='Chris Cal v2.0<br>Scientific Calculator ya kweli.<br>Imetengenezwa na Chris.<br>sin, cos, tan, log, ln, sqrt, factorial, power zote zinawork.'}
- if(t=='more'){ti.textContent='More Apps & Policy';bo.innerHTML='More Apps: Soon<br>Privacy Policy: App hii hai-tumi data yako nje. History inabaki kwenye simu yako tu. Hakuna tracking.'}
- document.getElementById('modal').style.display='flex';
-}
-function closeModal(){document.getElementById('modal').style.display='none'}
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
-</script></body></html>
+</script>
+</body>
+</html>
