@@ -1,0 +1,15 @@
+{
+  "name": "Chris Calculator",
+  "short_name": "Chris Calc",
+  "start_url": "calculator.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/891/891175.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

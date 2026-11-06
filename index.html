@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#111;font-family:sans-serif;display:flex;justify-content:center}
+:root{--main:#00ff88}
+#loading{position:fixed;inset:0;background:#000;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99}
+#loading h1{color:var(--main);font-size:32px;letter-spacing:2px;margin:0}
+#loading p{color:#888}
+.loader{width:120px;height:6px;background:#222;border-radius:10px;overflow:hidden;margin-top:20px}
+.loader div{height:100%;width:0%;background:var(--main)}
+.box{background:#1c1c1c;padding:15px;border-radius:20px;width:340px;margin-top:15px;display:none}
+.top{display:flex;justify-content:space-between;align-items:center;color:white}
+.top b{color:var(--main)}
+.colors button{width:22px;height:22px;border-radius:50%;border:2px solid white;cursor:pointer}
+#screen{width:100%;height:65px;font-size:30px;text-align:right;background:#000;color:var(--main);border:none;border-radius:12px;padding:10px;margin-top:10px}
+#hist{background:#111;color:#aaa;height:70px;overflow:auto;font-size:13px;padding:8px;border-radius:10px;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}
+button{height:48px;font-size:16px;border:none;border-radius:12px;background:#333;color:white}
+button.op{background:#ff9500}
+button.eq{background:var(--main);color:black;font-weight:bold}
+button.clear{background:#ff3b30}
+button.sci{background:#444;color:var(--main)}
+</style>
+</head>
+<body>
+
+<div id="loading">
+<h1>CHRIS</h1>
+<h1>CALCULATOR</h1>
+<p>Loading...</p>
+<div class="loader"><div id="bar"></div></div>
+</div>
+
+<div class="box" id="mainBox">
+<div class="top"><b>CHRIS CALCULATOR</b>
+<div class="colors">
+<button style="background:#00ff88" onclick="setColor('#00ff88')"></button>
+<button style="background:#0099ff" onclick="setColor('#0099ff')"></button>
+<button style="background:#a855f7" onclick="setColor('#a855f7')"></button>
+<button style="background:#ff3b30" onclick="setColor('#ff3b30')"></button>
+<button style="background:#ffcc00" onclick="setColor('#ffcc00')"></button>
+</div></div>
+
+<div id="hist">Historia hapa...<br></div>
+<input id="screen" readonly placeholder="0">
+
+<div class="grid">
+<button class="sci" onclick="add('Math.sin(')">sin</button>
+<button class="sci" onclick="add('Math.cos(')">cos</button>
+<button class="sci" onclick="add('Math.tan(')">tan</button>
+<button class="sci" onclick="add('Math.sqrt(')">√</button>
+<button class="sci" onclick="add('**')">^</button>
+
+<button class="sci" onclick="add('Math.log10(')">log</button>
+<button class="sci" onclick="add('Math.PI')">π</button>
+<button class="sci" onclick="add('%')">%</button>
+<button class="clear" onclick="clr()">C</button>
+<button onclick="back()">⌫</button>
+
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button class="op" onclick="add('/')">÷</button>
+<button class="sci" onclick="add('(')">(</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button class="op" onclick="add('*')">×</button>
+<button class="sci" onclick="add(')')">)</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button class="op" onclick="add('-')">-</button>
+<button class="sci" onclick="add('Math.pow(')">xʸ</button>
+
+<button onclick="add('0')">0</button>
+<button onclick="add('00')">00</button>
+<button onclick="add('.')">.</button>
+<button class="op" onclick="add('+')">+</button>
+<button class="eq" onclick="calc()">=</button>
+</div>
+<p style="color:#666;text-align:center;font-size:12px">Long press? Tumia rangi juu kubadilisha theme</p>
+</div>
+
+<script>
+let s=document.getElementById('screen');
+let hist=document.getElementById('hist');
+let bar=document.getElementById('bar');
+let w=0;
+let t=setInterval(()=>{
+w+=10; bar.style.width=w+'%';
+if(w>=100){clearInterval(t);
+document.getElementById('loading').style.display='none';
+document.getElementById('mainBox').style.display='block';
+}
+},150);
+
+function add(v){s.value+=v}
+function clr(){s.value=''}
+function back(){s.value=s.value.slice(0,-1)}
+function setColor(c){document.documentElement.style.setProperty('--main',c)}
+function calc(){
+try{
+let expr=s.value.replace(/%/g,'/100');
+let res=eval(expr);
+hist.innerHTML += s.value+' = <b style="color:white">'+res+'</b><br>';
+s.value=res;
+}catch(e){s.value='Error'}
+}
+</script>
+</body>
+</html>
+
+
+
